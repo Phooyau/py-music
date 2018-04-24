@@ -56,6 +56,7 @@ export function getSongsUrl(songs) {
       }).then((response) => {
         const res = response.data
         if (res.code === ERR_OK) {
+          console.log(res)
           let urlMid = res.url_mid
           if (urlMid && urlMid.code === ERR_OK) {
             const info = urlMid.data.midurlinfo[0]
