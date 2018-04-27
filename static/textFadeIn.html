@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>文字淡入效果</title>
   <style type="text/css">
     @-webkit-keyframes shinetext {
@@ -88,13 +89,32 @@
     }
 
     .text.active {
-      -webkit-animation: shinetext 2s 0s ease-in-out;
+      font-size: 18px;
+      -webkit-animation: shinetext 4s 0s ease-in-out;
       -webkit-animation-fill-mode: forwards;
+    }
+
+    .box2 {
+      position : fixed;
+      top: 50px;
+    }
+    .text2 {
+      margin-top: 20px;
+    }
+    .fna {
+      font-size: 24px;
+      display: block;
+      transition: all 2s;
+      opacity: 0;
+    }
+    .act {
+      opacity: 1;
     }
   </style>
 </head>
 <body>
 <div class="box">
+  <!--<input id="start" type="button" value="开始动画">-->
   <div class="text">
     《雁邱词》 元好问
     <br> 问世间情是何物，直教生死相许。
@@ -107,5 +127,61 @@
     <br> 千秋万古，为留待骚人，狂歌痛饮，来访雁邱处。
   </div>
 </div>
+
+<div class="box2">
+  <input id="start" type="button" value="再来一次">
+  <div class="text2">
+    <span class="fna">《雁邱词》 元好问</span>
+    <span class="fna"> 问世间情是何物，直教生死相许。</span>
+    <span class="fna"> 天南地北双飞客，老翅几回寒暑。</span>
+    <span class="fna"> 欢乐趣，离别苦，就中更有痴儿女。</span>
+    <span class="fna"> 君应有语，渺万里层云，千山暮雪，只影向谁去。</span>
+    <span class="fna"> 横汾路，寂寞当年箫鼓，荒烟依旧平楚。</span>
+    <span class="fna"> 招魂楚些何嗟及，山鬼暗啼风雨。</span>
+    <span class="fna"> 天也妒，未信与，莺儿燕子俱黄土。</span>
+    <span class="fna"> 千秋万古，为留待骚人，狂歌痛饮，来访雁邱处。</span>
+  </div>
+</div>
+<script>
+  function excuteAnimate() {
+    var target = document.getElementsByClassName('text').item(0)
+
+    if (target.style.display === 'block') {
+      target.style.display = 'none'
+    } else {
+      target.style.display = 'block'
+    }
+    if (target.className.match(/ active/)) {
+      target.className = target.className.replace(' active', '')
+    }
+
+    target.className += ' active'
+    var timer = setTimeout(excuteAnimate, 5000)
+  }
+
+  // excuteAnimate()
+
+  var text2 = document.getElementsByClassName('text2').item(0)
+  var span = text2.children
+
+  // 淡入动画
+  function excuteAnimate2(i) {
+    if (i < span.length) {
+      span[i].setAttribute('class', 'fna act')
+    } else {
+      return
+    }
+    i++
+    setTimeout(excuteAnimate2, 500, i)
+  }
+
+  var timer2 = excuteAnimate2(0)
+  document.getElementById('start').addEventListener('click', function () {
+    for (var i = 0; i < span.length; i++) {
+      span[i].setAttribute('class', 'fna')
+    }
+    setTimeout(excuteAnimate2, 1000, 0)
+  }, false)
+</script>
 </body>
 </html>
