@@ -32,7 +32,6 @@
     },
     created() {
       this._getDetail()
-      console.log(this)
     },
     methods: {
       _getDetail() {
@@ -44,7 +43,7 @@
           if (res.code === ERR_OK) {
             processSongsUrl(this._normalizeSongs(res.data.list)).then((songs) => {
               this.songs = songs
-              console.log(this.songs)
+              // console.log(this.songs)
             })
           }
         })
