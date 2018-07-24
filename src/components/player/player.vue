@@ -422,13 +422,13 @@
         if (newSong.id === oldSong.id) {
           return
         }
-        console.log(newSong)
+        // console.log(newSong)
         if (this.currentLyric) {
           this.currentLyric.stop()
         }
         setTimeout(() => {
           this.$refs.audio.play()
-          console.log('play')
+          // console.log('play')
         }, 1000)
         this.getLyric()
       },

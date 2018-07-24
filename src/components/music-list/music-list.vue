@@ -82,6 +82,7 @@
       handlePlaylist(playlist) {
         const bottom = playlist.length > 0 ? '60px' : ''
         this.$refs.list.$el.style.bottom = bottom
+        console.log(this.$refs)
         this.$refs.list.refresh()
       },
       scroll(pos) {
