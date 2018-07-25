@@ -3,7 +3,7 @@
     <div class="back" @click="back">
       <i class="icon-back"></i>
     </div>
-    <h1 class="title"></h1>
+    <h1 class="title" v-html="title"></h1>
     <div class="bg-image" :style="bgStyle" ref="bgImage">
       <div class="play-wrapper">
         <div class="play" v-show="songs.length" ref="playBtn" @click="random">
@@ -82,7 +82,6 @@
       handlePlaylist(playlist) {
         const bottom = playlist.length > 0 ? '60px' : ''
         this.$refs.list.$el.style.bottom = bottom
-        console.log(this.$refs)
         this.$refs.list.refresh()
       },
       scroll(pos) {
