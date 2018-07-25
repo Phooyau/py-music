@@ -55,11 +55,11 @@ export function getSongList(disstid) {
   let d = axios.get(url, {
     params: data
   }).then((res) => {
-    console.log(res)
+    // console.log(res)
     // return Promise.resolve(res.data)
     return res.data // 此处可以直接返回 res.data
   })
-  console.log(d)
+  // console.log(d)
 
   return d
 }
