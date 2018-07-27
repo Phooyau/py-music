@@ -1,15 +1,15 @@
 <template>
   <transition name="slide">
-    <music-list :title="title" :bg-image="bgImage" :songs="songs"></music-list>
+    <music-list :rank="rank" :title="title" :bg-image="bgImage" :songs="songs"></music-list>
   </transition>
 </template>
 
 <script type="text/ecmascript-6">
   import MusicList from 'components/music-list/music-list'
-  import { mapGetters } from 'vuex'
-  import { ERR_OK } from 'api/config'
-  import { getMusicList } from 'api/rank'
-  import { createSong } from 'common/js/song'
+  import {mapGetters} from 'vuex'
+  import {ERR_OK} from 'api/config'
+  import {getMusicList} from 'api/rank'
+  import {createSong, processSongsUrl} from 'common/js/song'
 
   export default {
     name: 'top-list',
@@ -19,10 +19,10 @@
       }
     },
     computed: {
-      title () {
+      title() {
         return this.topList.topTitle
       },
-      bgImage () {
+      bgImage() {
         if (this.songs.length) {
           return this.songs[0].image
         }
@@ -32,17 +32,20 @@
         'topList'
       ])
     },
-    created () {
+    created() {
+      this.rank = true
       this._getMusicList()
     },
     methods: {
-      _getMusicList () {
+      _getMusicList() {
         if (!this.topList.id) {
           this.$router.push('/rank')
         }
         getMusicList(this.topList.id).then((res) => {
           if (res.code === ERR_OK) {
-            this.songs = this._normalizeSongs(res.songlist)
+            processSongsUrl(this._normalizeSongs(res.songlist)).then(songs => {
+              this.songs = songs
+            })
           }
         })
       },
