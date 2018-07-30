@@ -1,8 +1,8 @@
 <template>
   <div class="search-box">
     <i class="icon-search"></i>
-    <input class="box" v-model="query" :placeholder="placeholder">
-    <i class="icon-dismiss" v-show="query" @click="clear"></i>
+    <input ref="query" v-model="query" class="box" :placeholder="placeholder"/>
+    <i @click="clear" v-show="query" class="icon-dismiss"></i>
   </div>
 </template>
 
@@ -27,13 +27,16 @@
     methods: {
       clear() {
         this.query = ''
+      },
+      setQuery(query) {
+        this.query = query
       }
     }
   }
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
-  @import '~common/stylus/variable'
+  @import "~common/stylus/variable"
 
   .search-box
     display: flex
@@ -54,6 +57,7 @@
       background: $color-highlight-background
       color: $color-text
       font-size: $font-size-medium
+      outline: 0
       &::placeholder
         color: $color-text-d
     .icon-dismiss
