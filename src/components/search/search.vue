@@ -15,10 +15,10 @@
           </div>
         </div>
     </div>
-    <div class="search-result">
+    <div class="search-result" v-show="query">
       <suggest :query="query"></suggest>
     </div>
-
+    <router-view></router-view>
   </div>
 </template>
 
@@ -89,4 +89,9 @@
             background: $color-highlight-background
             font-size: $font-size-medium
             color: $color-text-d
+    .search-result
+      position: fixed
+      width: 100%
+      top: 178px
+      bottom: 0
 </style>
