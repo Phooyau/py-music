@@ -99,6 +99,7 @@
           list: this.songs,
           index
         })
+        console.log('selectPlay')
       },
       random() {
         this.randomPlay({
