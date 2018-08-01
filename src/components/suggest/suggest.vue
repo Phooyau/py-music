@@ -100,7 +100,6 @@
           this.setSinger(singer)
         } else {
           this.insertSong(item)
-          console.log('insertSong')
         }
       },
       _checkMore(data) {
