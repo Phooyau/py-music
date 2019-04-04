@@ -42,6 +42,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
 
       app.post('/api/getPurlUrl', bodyParser.json(), function (req, res) {
         const url = 'https://u.y.qq.com/cgi-bin/musicu.fcg'
+        // console.log(req)
         axios.post(url, req.body, {
           headers: {
             referer: 'https://y.qq.com/',
@@ -50,7 +51,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
           }
         }).then((response) => {
           res.json(response.data)
-          // console.log(response.data)
+          // console.log(response)
         }).catch((e) => {
           console.log(e)
         })
