@@ -12,10 +12,28 @@
       </div>
       <div class="shortcut" v-show="!query">
         <switches :switches="switches" :currentIndex="currentIndex" @switch="switchItem"></switches>
+        <div class="list-wrapper">
+          <scroll class="list-scroll" ref="songList" v-if="currentIndex === 0" :data="playHistory">
+            <div class="list-inner">
+              <song-list :songs="playHistory" @select="selectSong"></song-list>
+            </div>
+          </scroll>
+          <scroll class="list-scroll" ref="searchList" v-if="currentIndex === 1" :data="searchHistory">
+            <div class="list-inner">
+              <search-list @delete="deleteSearchHistory" @select="addQuery" :searches="searchHistory"></search-list>
+            </div>
+          </scroll>
+        </div>
       </div>
       <div class="search-result" v-show="query">
         <suggest :query="query" :show-singer="showSinger" @select="selectSuggest" @listScroll="blurInput"></suggest>
       </div>
+      <top-tip ref="topTip">
+        <div class="tip-title">
+          <i class="icon-ok"></i>
+          <span class="text">1首歌曲已经添加到播放列表</span>
+        </div>
+      </top-tip>
     </div>
   </transition>
 </template>
@@ -23,8 +41,14 @@
 <script type="text/ecmascript-6">
   import SearchBox from 'base/search-box/search-box'
   import Switches from 'base/switches/switches'
-  import Suggest from 'components/suggest/Suggest'
+  import Scroll from 'base/scroll/scroll'
+  import SongList from 'base/song-list/song-list'
+  import SearchList from 'base/search-list/search-list'
+  import TopTip from 'base/top-tip/top-tip'
+  import Suggest from 'components/suggest/suggest'
   import {searchMixin} from 'common/js/mixin'
+  import {mapGetters, mapActions} from 'vuex'
+  import Song from 'common/js/song'
 
   export default {
     mixins: [searchMixin],
@@ -39,9 +63,21 @@
         ]
       }
     },
+    computed: {
+      ...mapGetters([
+        'playHistory'
+      ])
+    },
     methods: {
       show() {
         this.showFlag = true
+        setTimeout(() => {
+          if (this.currentIndex === 0) {
+            this.$refs.songList.refresh()
+          } else {
+            this.$refs.searchList.refresh()
+          }
+        }, 20)
       },
       hide() {
         this.showFlag = false
@@ -51,11 +87,28 @@
       },
       selectSuggest() {
         this.saveSearch()
-      }
+        this.showTip()
+      },
+      selectSong(song, index) {
+        if (index !== 0) {
+          this.insertSong(new Song(song))
+          this.showTip()
+        }
+      },
+      showTip() {
+        this.$refs.topTip.show()
+      },
+      ...mapActions([
+        'insertSong'
+      ])
     },
     components: {
       SearchBox,
       Switches,
+      Scroll,
+      SongList,
+      SearchList,
+      TopTip,
       Suggest
     }
   }

@@ -4,27 +4,27 @@
       <search-box ref="searchBox" @query="onQueryChange"></search-box>
     </div>
     <div class="shortcut-wrapper" ref="shortcutWrapper" v-show="!query">
-        <scroll class="shortcut" ref="shortcut" :data="shortcut">
-          <div>
-            <div class="hot-key">
-              <h1 class="title">热门搜索</h1>
-              <ul>
-                <li class="item" @click="addQuery(item.k)" v-for="item in hotKey">
-                  <span>{{item.k}}</span>
-                </li>
-              </ul>
-            </div>
-            <div class="search-history" v-show="searchHistory.length">
-              <h1 class="title">
-                <span class="text">搜索历史</span>
-                <span class="clear" @click="showConfirm">
-                  <i class="icon-clear"></i>
-                </span>
-              </h1>
-              <search-list @select="addQuery" @delete="deleteSearchHistory" :searches="searchHistory"></search-list>
-            </div>
+      <scroll class="shortcut" ref="shortcut" :refreshDelay="refreshDelay" :data="shortcut">
+        <div>
+          <div class="hot-key">
+            <h1 class="title">热门搜索</h1>
+            <ul>
+              <li class="item" @click="addQuery(item.k)" v-for="item in hotKey">
+                <span>{{item.k}}</span>
+              </li>
+            </ul>
           </div>
-        </scroll>
+          <div class="search-history" v-show="searchHistory.length">
+            <h1 class="title">
+              <span class="text">搜索历史</span>
+              <span class="clear" @click="showConfirm">
+                <i class="icon-clear"></i>
+              </span>
+            </h1>
+            <search-list @select="addQuery" @delete="deleteSearchHistory" :searches="searchHistory"></search-list>
+          </div>
+        </div>
+      </scroll>
     </div>
     <div class="search-result" ref="searchResult" v-show="query">
       <suggest ref="suggest" :query="query" @listScroll="blurInput" @select="saveSearch"></suggest>
@@ -49,8 +49,7 @@
     mixins: [playlistMixin, searchMixin],
     data() {
       return {
-        hotKey: [],
-        query: ''
+        hotKey: []
       }
     },
     computed: {

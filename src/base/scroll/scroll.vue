@@ -36,6 +36,10 @@
         type: Boolean,
         default: false
       },
+      refreshDelay: {
+        type: Number,
+        default: 20
+      },
       direction: {
         type: String,
         default: DIRECTION_V
@@ -44,7 +48,7 @@
     mounted() {
       setTimeout(() => {
         this._initScroll()
-      }, 20)
+      }, this.refreshDelay)
     },
     methods: {
       _initScroll() {
@@ -97,7 +101,7 @@
       data() {
         setTimeout(() => {
           this._initScroll()
-        }, 20)
+        }, this.refreshDelay)
       }
     }
   }

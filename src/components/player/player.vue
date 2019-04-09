@@ -24,8 +24,8 @@
         >
           <div class="middle-l" ref="middleL">
             <div class="cd-wrapper" ref="cdWrapper">
-              <div class="cd">
-                <img class="image" :class="cdCls" :src="currentSong.image">
+              <div class="cd" ref="imageWrapper">
+                <img class="image" ref="image" :class="cdCls" :src="currentSong.image">
               </div>
             </div>
             <div class="playing-lyric-wrapper">
@@ -80,7 +80,7 @@
       <div class="mini-player" v-show="!fullScreen" @click="open">
         <div class="icon">
           <div class="imgWrapper" ref="miniWrapper">
-            <img width="40" height="40" :class="cdCls" :src="currentSong.image">
+            <img width="40" height="40" ref="miniImage" :class="cdCls" :src="currentSong.image">
           </div>
         </div>
         <div class="text">
@@ -104,7 +104,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {mapGetters, mapMutations} from 'vuex'
+  import {mapGetters, mapMutations, mapActions} from 'vuex'
   import animations from 'create-keyframe-animation'
   import {prefixStyle} from 'common/js/dom'
   import ProgressBar from 'base/progress-bar/progress-bar'
@@ -258,6 +258,7 @@
       },
       ready() {
         this.songReady = true
+        this.savePlayHistory(this.currentSong)
       },
       error() {
         this.songReady = true
@@ -391,9 +392,29 @@
           scale
         }
       },
+      /**
+       * 计算内层 Image 的 transform，并同步到外层容器
+       * @param {String} wrapper - 外层容器的 vue 引用（ref）
+       * @param {String} inner - 内层 Image 的 vue 引用（ref）
+       */
+      syncWrapperTransform(wrapper, inner) {
+        if (!this.$refs[wrapper]) {
+          return
+        }
+        let imageWrapper = this.$refs[wrapper]
+        let image = this.$refs[inner]
+        let wTransform = getComputedStyle(imageWrapper)[transform]
+        let iTransform = getComputedStyle(image)[transform]
+        console.log(getComputedStyle(image))
+        console.log(iTransform)
+        imageWrapper.style[transform] = wTransform === 'none' ? iTransform : iTransform.concat(' ', wTransform)
+      },
       ...mapMutations({
         setFullScreen: 'SET_FULL_SCREEN'
-      })
+      }),
+      ...mapActions([
+        'savePlayHistory'
+      ])
     },
     watch: {
       currentSong(newSong, oldSong) {
@@ -418,6 +439,13 @@
         this.$nextTick(() => {
           newPlaying ? audio.play() : audio.pause()
         })
+        if (!newPlaying) {
+          if (this.fullScreen) {
+            this.syncWrapperTransform('imageWrapper', 'image')
+          } else {
+            this.syncWrapperTransform('miniWrapper', 'miniImage')
+          }
+        }
       }
     },
     components: {
