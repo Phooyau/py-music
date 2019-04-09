@@ -70,7 +70,7 @@
               <i @click="next" class="icon-next"></i>
             </div>
             <div class="icon i-right">
-              <i class="icon icon-not-favorite"></i>
+              <i class="icon" :class="getFavoriteIcon(currentSong)" @click="toggleFavorite(currentSong)"></i>
             </div>
           </div>
         </div>
@@ -405,8 +405,6 @@
         let image = this.$refs[inner]
         let wTransform = getComputedStyle(imageWrapper)[transform]
         let iTransform = getComputedStyle(image)[transform]
-        console.log(getComputedStyle(image))
-        console.log(iTransform)
         imageWrapper.style[transform] = wTransform === 'none' ? iTransform : iTransform.concat(' ', wTransform)
       },
       ...mapMutations({
