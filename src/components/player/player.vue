@@ -98,7 +98,7 @@
       </div>
     </transition>
     <playlist ref="playlist"></playlist>
-    <audio ref="audio" :src="currentSong.url" @canplay="ready" @error="error" @timeupdate="updateTime"
+    <audio ref="audio" :src="currentSong.url" @play="ready" @error="error" @timeupdate="updateTime"
            @ended="end"></audio>
   </div>
 </template>
@@ -291,6 +291,9 @@
       },
       getLyric() {
         this.currentSong.getLyric().then((lyric) => {
+          if (this.currentSong.lyric !== lyric) {
+            return
+          }
           this.currentLyric = new Lyric(lyric, this.handleLyric)
           if (this.playing) {
             // 这个时候有可能用户已经播放了歌曲，要切到对应位置
@@ -426,7 +429,8 @@
         if (this.currentLyric) {
           this.currentLyric.stop()
         }
-        setTimeout(() => {
+        clearTimeout(this.timer)
+        this.timer = setTimeout(() => {
           this.$refs.audio.play()
           // console.log('play')
         }, 1000)
