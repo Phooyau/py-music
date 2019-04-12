@@ -1,6 +1,7 @@
 var express = require('express')
 var axios = require('axios')
 var bodyParser = require('body-parser')
+var compression = require('compression')
 var config = require('./config/index')
 
 var app = express()
@@ -109,6 +110,8 @@ apiRoutes.get('/search', function (req, res) {
 })
 
 app.use('/api', apiRoutes)
+
+app.use(compression())
 
 app.use(express.static('./dist'))
 
