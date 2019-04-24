@@ -1,5 +1,5 @@
 import jsonp from 'common/js/jsonp'
-import {commonParams, options} from './config'
+import {commonParams, options, PROXY_URI} from './config'
 import axios from 'axios'
 
 const debug = process.env.NODE_ENV !== 'production'
@@ -17,7 +17,7 @@ export function getRecommend() {
 }
 
 export function getDiscList() {
-  const url = debug ? '/api/getDiscList' : 'http://ustbhuangyi.com/music/api/getDiscList'
+  const url = debug ? '/api/getDiscList' : PROXY_URI + '/api/getDiscList'
 
   const data = Object.assign({}, commonParams, {
     platform: 'yqq',
@@ -39,7 +39,7 @@ export function getDiscList() {
 }
 
 export function getSongList(disstid) {
-  const url = debug ? '/api/getCdInfo' : 'http://ustbhuangyi.com/music/api/getCdInfo'
+  const url = debug ? '/api/getCdInfo' : PROXY_URI + '/api/getCdInfo'
 
   const data = Object.assign({}, commonParams, {
     disstid,

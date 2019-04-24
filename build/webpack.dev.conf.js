@@ -27,11 +27,16 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     before(app) {
       app.get('/api/getDiscList', function (req, res) {
         const url = 'https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg'
+        // const url = 'http://ustbhuangyi.com/music/api/getDiscList'
         axios.get(url, {
           headers: {
             referer: 'https://c.y.qq.com',
             host: 'c.y.qq.com'
           },
+          // headers: {
+          //   referer: 'http://ustbhuangyi.com/music/',
+          //   host: 'ustbhuangyi.com'
+          // },
           params: req.query
         }).then((response) => {
           res.json(response.data)
