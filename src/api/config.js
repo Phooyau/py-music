@@ -13,4 +13,4 @@ export const options = {
 
 export const ERR_OK = 0
 
-export const PROXY_URI = 'http://www.phooyau.com:8080/music'
+export const PROXY_URI = 'http://www.phooyau.com/music'

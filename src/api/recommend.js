@@ -2,6 +2,8 @@ import jsonp from 'common/js/jsonp'
 import {commonParams, options, PROXY_URI} from './config'
 import axios from 'axios'
 
+// const debug = false
+// const debug = true
 const debug = process.env.NODE_ENV !== 'production'
 
 export function getRecommend() {
